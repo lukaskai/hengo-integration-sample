@@ -1,6 +1,7 @@
-import secp256k1 from 'secp256k1';
-import got from 'got';
+const secp256k1 = require('secp256k1');
+const got = require('got');
 
+// Private key without "0x"
 const privateKey = '';
 const apiKey = '';
 
@@ -35,7 +36,7 @@ const apiKey = '';
 
 function sign(pK, payload) {
   const hexMsgHash = Uint8Array.from(Buffer.from(payload, 'hex'));
-  const privateKeyUint8 = Uint8Array.from(Buffer.from(privateKey.substring(2), 'hex'));
+  const privateKeyUint8 = Uint8Array.from(Buffer.from(privateKey, 'hex'));
   const ecdsaSignature = secp256k1.ecdsaSign(hexMsgHash, privateKeyUint8);
   const signature = (Buffer.from(ecdsaSignature.signature).toString('hex')) + ecdsaSignature.recid;
   return signature;
