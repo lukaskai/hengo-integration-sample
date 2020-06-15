@@ -15,7 +15,7 @@ const apiKey = '';
       addressFrom: '',
       addressTo: '',
       amount: 2,
-      speed: 'fast',
+      speed: 'FAST',
     },
   }).json();
 
