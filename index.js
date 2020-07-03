@@ -7,7 +7,7 @@ const apiKey = '';
 
 (async () => {
   // 1. CREATE TRANSACTION
-  const body = await got.post('https://apidev.hengo.io/v1/token/USDC/transaction', {
+  const { toSign, serializedTransaction } = await got.post('https://apidev.hengo.io/v1/token/USDC/transaction', {
     headers: {
       'x-api-key': apiKey,
     },
@@ -20,7 +20,7 @@ const apiKey = '';
   }).json();
 
   // 2. SIGN IT
-  const signature = sign(privateKey, body.toSign);
+  const signature = sign(privateKey, toSign);
 
   // 3. BROADCAST
   await got.post('https://apidev.hengo.io/v1/general/transaction/broadcast', {
@@ -28,7 +28,8 @@ const apiKey = '';
       'x-api-key': apiKey,
     },
     json: {
-      ...body,
+      toSign,
+      serializedTransaction,
       signature,
     },
   }).json();
